@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <script type="text/javascript">
+     
+        const token = 'YOUR_TOKEN_HERE1';
+
+        // Use WebSocket and pass the token as a query parameter
+        const socket = new WebSocket(`ws://localhost:8080/ws?token=${token}`);
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+
+            stompClient.subscribe('/topic/response', function (response) {
+                console.log('Message: ' + response.body);
+                alert('MSSG: ' + response.body);
+            });
+
+            // Subscribe to /topic/userCount to receive user count updates
+            stompClient.subscribe('/topic/userCount', (message) => {
+                console.log('User count: ' + message.body);
+            });
+
+            // Send messages
+            stompClient.send("/app/getUserCount", {}, '');
+            stompClient.send("/app/send", {}, "Hello, WebSocket!");
+        }, function (error) {
+            console.error('STOMP error: ', error);
+        });
+    </script>
+</body>
+</html>

@@ -21,7 +21,7 @@ public class SecurityConfig {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    private static final String[] WHITE_LIST = { "/v3/api-docs/**", "/swagger-ui/**"};
+    private static final String[] WHITE_LIST = { "/v3/api-docs/**", "/swagger-ui/**", "/ws/**", "/topic/**"};
     
     /**
      * Security configuration for Spring Security. Disables CSRF protection, allows access to OpenAPI
